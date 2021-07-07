@@ -82,7 +82,7 @@ const showNewCommentPopup = (position) => {
     left = $('.toolbar .addComment').offset().left;
   }
   const top = position[1];
-  $('#newComment').css('left', left);
+  $('#newComment').css('right', right);
   if (left === position[0]) {
     $('#newComment').css('top', top);
   }
