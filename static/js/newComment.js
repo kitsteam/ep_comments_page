@@ -76,18 +76,32 @@ const insertNewCommentPopupIfDontExist = (comment, callback) => {
   return $newComment;
 };
 
+// The variable position is an array consisting of x and y coordinates
 const showNewCommentPopup = (position) => {
   // position below comment icon
   position = position || [];
-  let left = position[0];
-  if ($('.toolbar .addComment').length) {
-    left = $('.toolbar .addComment').offset().left;
-  }
-  const top = position[1];
+
+  const xPosition = position[0] || 0;
+  const yPosition = position[1] || 0;
+  
+  // This code snippet prioritizes the position passed to the method.
+  // It ensures that it cannot go out of the right border of the padInnerElement.
+  const padInnerElement = $('iframe[name="ace_outer"]').contents().find('iframe[name="ace_inner"]');
+  const popupLeftPositionFromRightBorderOfPadInnerElement =  padInnerElement.width() - $('#newComment').width();
+  const left = Math.max(
+    Math.min(
+        xPosition,
+        popupLeftPositionFromRightBorderOfPadInnerElement,
+      ),
+      xPosition
+    );
   $newComment.css('left', left);
+
+  const top = yPosition;
   if (left === position[0]) {
     $newComment.css('top', top);
   }
+
   // Reset form to make sure it is all clear
   $newComment.find('.suggestion-checkbox').prop('checked', false).trigger('change');
   $newComment.find('textarea').val('');
