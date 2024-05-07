@@ -86,7 +86,7 @@ exports.socketio = (hookName, args, cb) => {
     // On add events
     socket.on('addComment', handler(async (data) => {
       const {padId} = await readOnlyManager.getIds(data.padId);
-      const content = data.comment;
+      const content = { ...data.comment, ...{ changeFrom: data.changeFrom } };
       const [commentId, comment] = await commentManager.addComment(padId, content);
       if (commentId != null && comment != null) {
         socket.broadcast.to(padId).emit('pushAddComment', commentId, comment);

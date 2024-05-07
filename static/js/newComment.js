@@ -12,8 +12,8 @@ const buildCommentFrom = (form) => {
   const comment = {};
 
   comment.text = text;
+  comment.changeFrom = changeFrom;
   if (changeTo) {
-    comment.changeFrom = changeFrom;
     comment.changeTo = changeTo;
   }
 
